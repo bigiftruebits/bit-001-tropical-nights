@@ -1,0 +1,52 @@
+# Errors found and fixed during development
+
+Recorded for transparency, since the analysis was machine-generated.
+
+1. **NaN treated as zero.** `xarray.sum()` skips NaN by default, which silently
+   converted every sea cell (ERA5-Land is land-only) into a real-looking 0.0 K
+   value. Those fake cells clustered at sea level and fabricated an elevation
+   slope. Fixed with `skipna=False` — see `analysis.py::_weighted_sum`.
+
+2. **Bounding boxes are not countries.** A lat/lon box around Italy also contains
+   Tunisia, Slovenia, Croatia, Switzerland and Austria: 29% of the "Italian" land
+   cells were foreign. Replaced hand-drawn polygons with Natural Earth 1:10m
+   boundaries.
+
+3. **Coastal population dropped.** Snapping 5 km population cells to the nearest
+   ERA5-Land cell lost 10–16% of people to sea pixels — exactly the coastal
+   population that matters most. Fixed by snapping to the nearest *valid land*
+   cell via a KD-tree.
+
+4. **Arbitrary threshold.** An early version reported "share of population with
+   under 4 hours of relief". Four hours had no justification. The published
+   figure reports the full 0 / 4 / 8 banding instead, and the sensitivity across
+   all thresholds is in `results/threshold_sensitivity.csv`.
+
+5. **Spurious diurnal "bumps".** Hourly warming showed peaks at 06 and 19 UTC.
+   These appear at the same *clock* hour in Italy, France and Spain despite ~1 h
+   of solar-time separation, so they are ERA5 forecast-cycle artefacts, not
+   physical. Any hourly structure below ~0.2 °C should be treated as suspect.
+
+6. **An unsupported claim in the text.** An early draft said heatwave deaths "track night-time temperature at least as closely as daytime peaks". Checking the literature showed the supported claim is narrower: night-time heat raises mortality *independently* of daytime temperature, and a hot day followed by a hot night is deadlier than the same day followed by a cool one — but the balance between day and night effects is cause-specific (respiratory mortality is more daytime-sensitive). The sentence was rewritten and the sources cited in the Receipts box.
+
+7. **Stale figures restored after a container reset.** On recovery, figures were restored with `cp outputs/out_fig*.png`, because the document builder read files named `out_fig*`. That pattern matched copies from 2026-08-25, not the current figures saved under other names on 2026-08-28. Every `.docx` built after the reset, in both editions, embedded all three stale figures — including a Figure 3 with no 'full 8 h' band and Spain printed as 5.5 -> 3.3. Found by the consolidation session. Fix: the builder reads canonical `fig-001-*.png` names, and embedded images are now verified by hash before shipping.
+
+8. **An argument that applied to our own measure.** The IF beat and the verdict box criticised tropical nights for saturating: "a night that just scrapes past 20 °C and a night that sits at 26 °C count the same", and the count "hits its ceiling". Hours of relief has the same ceiling — it reads zero for any night whose coolest hours stay above 20 °C, whatever the temperature, which already covers about a third of Greeks. Caught by the author. The argument was rewritten around what the measure actually adds: resolution in the middle of the range, telling a night that cools for an hour apart from one that stays cool till dawn. Its own ceiling is now stated in the limitations box.
+
+9. **A level compared with a change.** Figure 2 and the Po Valley callout set each city's tropical-night share *today* beside the hours of relief it had *lost*, and a paragraph claimed a yes-or-no count "does not rank places by how much they have lost". Any measure can be read as a change; the article itself did so for Rome. Caught by the author. Figure 2 was rebuilt with both columns as change, ordered by the rise in tropical nights. That reshaped the finding: both measures agree that Rome and Bologna changed a lot; they disagree over Milan (+22 points, −4.2 h) and Turin (+6 points, −2.6 h). The callout, paragraph and caption were rewritten to match, and the verdict's "more than twice as fast" corrected to "nearly twice" (4.2 h against Naples' 2.4 is 1.75x).
+
+10. **A city represented by a hillside.** Genoa's own ERA5-Land cell is sea, so the lookup fell back to the nearest land cell — 11 km north, in the hills behind the city — which gave a comfortable 5.9 hours and supported a sentence about the sea keeping Genoa cool. The coastal cell just east of the city, 12 km away, reads 1.9 hours. Caught by the author. Every quoted city was then checked against the cells within 15 km (`check_cities.py`); Genoa is the only one whose own cell is sea. It was dropped from the text and from Figure 2, and the check is now in the limitations. Two claims that failed the same check were rewritten: 'Turin lost more than Naples or Palermo' (differences of 0.2–0.6 h, within the spread between neighbouring cells) and 'nearly twice as fast as the southern coasts' (now 'more than').
+
+11. **The anecdote averaged months without weighting.** Troina and Crema were first computed with a plain mean over months; every other figure weights June by 30 days and July and August by 31. Crema moves from 3.1 to 3.0 hours, and the gap from 0.8 -> 3.2 to 0.9 -> 3.3.
+
+12. **A sentence lost in a container reset.** The sentence backing the anecdote with numbers was added on request, then silently disappeared from the English edition when the build script was restored from an older copy after a reset — the same class of failure as entry 7. It survived in the Italian edition and the numbers strip, which is how it was noticed. Restored with the corrected figures. Two colour-wording fixes from the same batch were lost with it: the Figure 3 caption's "dark red band on the left" and the same phrase in the closing paragraph. The caption is restored; the paragraph has since been replaced by the personal coda.
+
+13. **An unsupported direction of bias.** The city-check bullet said that 'if anything the hilltop town is cooler than the cell' for Troina. The cell does average ground well below the 1,120 m town, but on still nights cold air pools in valleys and ridge-tops can stay relatively warm, so the direction is not known. Caught by the author. Reworded to say a 9 km grid cannot settle it.
+
+14. **The wrong terrain file, blamed on the data.** Checking Troina, a terrain lookup returned 0 m for a town at 1,120 m, and I wrote that the terrain file was 'unreliable for point lookups'. The real cause: Italy's terrain had been uploaded as `orography.nc`, and France's was later uploaded under the same name, replacing it. Troina lies outside France's file, so the lookup silently returned the file's nearest edge — open sea. Caught by the author, who questioned the 0 m. The same kind of silent same-name replacement as entries 7 and 12. Nothing in the article uses terrain; the only statement that leant on it — a claim about how high Troina's grid cell sits — was reworded to claim nothing about height. Lesson: name data files by region, and check a file's coverage before a point lookup rather than trusting the answer. **Recovered 2026-09-28:** Riccardo re-uploaded Italy's terrain file, now kept as `orography_italy.nc`. On its 0.25-degree grid the ground around Troina sits at roughly 740-780 m, about 350 m below the town, which independently confirms that the grid describes the area around Troina rather than the town. **Then ERA5-Land's own terrain:** its 0.1-degree geopotential is not in the Copernicus download system but attached to ECMWF's ERA5-Land documentation page (`geo_1279l4_0.1x0.1.grib2_v4_unpack.nc`), on exactly the grid of the temperature data. Troina's cell stands at 882 m, not the ~720 m interpolated from the coarser file or the ~700 m inferred from night temperatures — both indirect estimates undershot, and neither was ever quoted in the article. The same file shows Palermo's cell at 237 m against a city near sea level, a second case of a cell describing its surroundings rather than the city.
+
+15. **The Italian receipts lacked the mortality sources.** They had been added to the English edition only, while the Italian was already behind, so the Italian carried the softened mortality claim without its citations. Found while adding the air-conditioning sources to both editions. Both source bullets are now in the Italian receipts.
+
+16. **Two editions of the same piece.** From 18 September the consolidation session revised #001 in the project while the analysis session kept editing its own copy, without reading the project's version first. Each ended up with changes the other lacked: fifteen voice edits on one side, the corrections of entries 8 to 15 on the other. Noticed when the author recognised the coda as one he had already seen. Unified on 2026-09-28 from the project text as base (merge log `claude/bit-001-merge-log-2026-09-28.md`), with a single shared layout for both languages so the editions cannot drift apart in structure again. Lesson: a session that edits a piece reads the project's current text first — the §0 rule applies to text, not only to figures.
+
+17. **A double rounding.** The share of southern Europeans with under four hours of relief today was printed with one decimal as 62.5% and then rounded again to 63% for the article. The exact value is 62.498%, so 62%. Caught by `check_numbers.py`, the reproducibility check in the shared-data package, the first time it was run. Corrected in both editions.

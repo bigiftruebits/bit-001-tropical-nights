@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: "BIG IF TRUE #001 — Southern Europe has stopped cooling down at night: code and data"
+authors:
+  - family-names: Gallotti
+    given-names: Riccardo
+    affiliation: Fondazione Bruno Kessler (FBK)
+date-released: 2026-09-28
+license: MIT
+message: >-
+  Code written and executed by Claude Opus 5 (Anthropic) under the author's
+  direction. Temperatures: Copernicus Climate Change Service, ERA5-Land.
+  Population: Eurostat GISCO, 2021 census grid. Outlines: Natural Earth.
