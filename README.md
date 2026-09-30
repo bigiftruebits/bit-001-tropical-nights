@@ -15,7 +15,8 @@ Site with the figures: https://bigiftruebits.github.io/bit-001-tropical-nights/
 - **Who did what:** code written and run by Claude Opus 5 (Anthropic) under the author's direction; the author set the questions, framing and editorial choices. The code was not re-read line by line and nothing is peer-reviewed.
 - **Errors found and fixed:** 17 entries in [`NOTES.md`](NOTES.md).
 - **Numbers:** every number in [`KEY_NUMBERS.md`](KEY_NUMBERS.md); `check_numbers.py` re-derives 48 of them.
-- **Peer-reviewed work on the same question:** in the article's receipts box.
+- **Peer-reviewed work on the same question:** Vavassori, Žgela & Brovelli, *Applied Geomatics* 18:84 (2026), open access (the benchmark).
+- **Sources behind the health and cooling statements:** Murage, Hajat & Kovats, *Environmental Epidemiology* (London, 1993–2015) and the nationwide Japanese analysis in *Environmental Health Perspectives* 131 (2023) on night-time heat and mortality; de Munck et al., *Int. J. Climatology* 33 (2013), Salamanca et al., *J. Geophys. Res. Atmos.* 119 (2014) and the IEA's *The Future of Cooling* (2018) on air conditioning.
 - **Code and data:** open, in this repository.
 - **How to cite:** Zenodo version DOI, *added after the first tagged release.* Cite the DOI, not the post.
 
