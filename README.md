@@ -18,7 +18,7 @@ Site with the figures: https://bigiftruebits.github.io/bit-001-tropical-nights/
 - **Peer-reviewed work on the same question:** Vavassori, Žgela & Brovelli, *Applied Geomatics* 18:84 (2026), open access (the benchmark).
 - **Sources behind the health and cooling statements:** Murage, Hajat & Kovats, *Environmental Epidemiology* (London, 1993–2015) and the nationwide Japanese analysis in *Environmental Health Perspectives* 131 (2023) on night-time heat and mortality; de Munck et al., *Int. J. Climatology* 33 (2013), Salamanca et al., *J. Geophys. Res. Atmos.* 119 (2014) and the IEA's *The Future of Cooling* (2018) on air conditioning.
 - **Code and data:** open, in this repository.
-- **How to cite:** Zenodo version DOI, *added after the first tagged release.* Cite the DOI, not the post.
+- **How to cite:** one Zenodo record holds both the code and the data of this issue; cite its DOI, not the post. DOI: *to be added at publication.*
 
 **Reproduced it, or found a difference?** Open an issue titled "Reproduced" or "Mismatch" with what you ran and what you got.
 

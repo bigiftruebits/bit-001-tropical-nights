@@ -2,7 +2,7 @@
 
 Every raw input needed to rebuild `data/`, with its source, retrieval date and checksum.
 Retrieved **2026-10-01** with `code/download_raw.py` (ERA5-Land, Natural Earth) and by hand (Eurostat).
-Raw files are not stored in this git repository (`raw/` is ignored); the Zenodo archive includes the ERA5-Land and Natural Earth files.
+Raw files are not stored in this git repository (`raw/` is ignored); the issue's single Zenodo record (code and data together) includes the ERA5-Land and Natural Earth files.
 
 | file | source | bytes | sha256 |
 |---|---|---|---|
