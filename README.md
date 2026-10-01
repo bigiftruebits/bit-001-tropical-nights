@@ -77,7 +77,7 @@ Paths are set in `code/config.py`; raw files go in `raw/`.
 | source | what | licence |
 |---|---|---|
 | Copernicus Climate Change Service, ERA5-Land monthly averaged reanalysis by hour of day, 2 m temperature | temperatures | Copernicus licence; attribution required — "Generated using Copernicus Climate Change Service information 2026" |
-| Eurostat GISCO, 5 km statistical grid with 2021 census population (`grid_5km_surf.gpkg`, `TOT_P_2021`), https://ec.europa.eu/eurostat/web/gisco/geodata/grids | population | © European Union, Eurostat. Eurostat attaches download conditions to its population grids, which are accepted on its page; GEOSTAT data are for non-commercial use. `population_by_cell.csv` is derived from this grid |
+| Eurostat GISCO, 5 km statistical grid with 2021 census population (`grid_5km_surf.gpkg`, `TOT_P_2021`), https://ec.europa.eu/eurostat/web/gisco/geodata/grids | population | © European Union, Eurostat. Eurostat's site states that EU copyright rules apply and that the licence is CC BY 4.0 for the census grid 2021; that note was read on the census-grid card, and its application to the 5 km `TOT_P_2021` file should be confirmed (see `DATA_MANIFEST.md`). `population_by_cell.csv` is derived from this grid |
 | Natural Earth 1:10m admin-0 countries | country outlines | public domain |
 
 ## What cannot be checked from `data/` alone
