@@ -21,5 +21,5 @@ Raw files are not stored in this git repository (`raw/` is ignored); the Zenodo 
 ## Citations and licences
 
 - ERA5-Land monthly averaged data: Muñoz Sabater, J. (2019), Copernicus Climate Change Service (C3S) Climate Data Store, doi:10.24381/cds.68d2bb30. Attribution required: "Generated using Copernicus Climate Change Service information 2026". Licence: Copernicus licence.
-- Eurostat GISCO 5 km grid, © European Union, Eurostat. Eurostat's census-grid page states that EU copyright rules apply and the licence is CC BY 4.0. **To confirm** that the same applies to `grid_5km_surf.gpkg` / `TOT_P_2021` (the file itself carries no licence text).
+- Eurostat GISCO 5 km grid, © European Union, Eurostat. Eurostat's census-grid page states that EU copyright rules apply and that the licence would be CC BY 4.0. `TOT_P_2021` is 2021 census population, so **CC BY 4.0 is assumed** for `grid_5km_surf.gpkg` and for the derived `data/population_by_cell.csv` (the file itself carries no licence text; not confirmed in writing with Eurostat). Attribution: © European Union, Eurostat.
 - Natural Earth: public domain.
