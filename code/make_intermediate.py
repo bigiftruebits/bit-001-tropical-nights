@@ -106,6 +106,66 @@ def main():
     out["lat"] = out.lat.round(2); out["lon"] = out.lon.round(2)
     out.to_csv(DATA / "population_by_cell.csv", index=False)
     print(f"population_by_cell.csv: {out.population.sum()/1e6:.1f} M people")
+    per_summer_tables(out)
+
+
+def per_summer_tables(pop):
+    """One row per country and summer: national mean temperature (land cells in
+    the country, all hours, day-weighted) and hours of relief per person. These
+    let anyone redo the year-by-year resampling behind the article's uncertainty."""
+    rows, monthly = [], []
+    ne_borders = json.load(open(DATA / "borders.geojson"))
+    for dec in ("1980s", "2020s"):
+        da = xr.open_dataset(RAW / f"seu_{dec}.nc")["t2m"] - 273.15
+        t = "valid_time" if "valid_time" in da.dims else "time"
+        ym = (da[t].dt.year * 100 + da[t].dt.month).rename("ym")
+        mean_t = da.groupby(ym).mean(t)                                  # monthly mean temperature
+        below = (da < THRESHOLD_C).groupby(ym).sum(t, skipna=False)
+        below = xr.where(below > SLEEP_HOURS, SLEEP_HOURS, below)
+        f0 = da.isel({t: 0}); lon, lat = np.meshgrid(f0.longitude.values, f0.latitude.values)
+        for key in ("italy", "spain", "greece"):
+            g = prep(shape(ne_borders[key]))
+            m = np.fromiter((g.contains(Point(x, y)) for x, y in zip(lon.ravel(), lat.ravel())),
+                            bool, lon.size).reshape(lon.shape) & ~np.isnan(f0.values)
+            d = pop[pop.country == key]
+            sel = dict(latitude=xr.DataArray(d.lat.values), longitude=xr.DataArray(d.lon.values))
+            for y in sorted(set(int(v // 100) for v in ym.values)):
+                ks = [y * 100 + mo for mo in (6, 7, 8)]; w = np.array([30.0, 31.0, 31.0])
+                tm = np.array([float(mean_t.sel(ym=k).values[m].mean()) for k in ks])
+                rl = np.array([float(np.average(below.sel(ym=k).sel(**sel, method="nearest").values,
+                                                weights=d.population.values)) for k in ks])
+                rows.append(dict(country=key, year=y, jja_mean_temp_c=round(float((tm * w).sum() / w.sum()), 4),
+                                 relief_per_person_h=round(float((rl * w).sum() / w.sum()), 4)))
+                if key == "italy":
+                    for k, v in zip(ks, tm):
+                        monthly.append(dict(year=y, month=k % 100, mean_temp_c=round(v, 4)))
+    # the eight countries together: the article's headline number and its range
+    for dec in ("1980s", "2020s"):
+        da = xr.open_dataset(RAW / f"seu_{dec}.nc")["t2m"] - 273.15
+        t = "valid_time" if "valid_time" in da.dims else "time"
+        ym = (da[t].dt.year * 100 + da[t].dt.month).rename("ym")
+        below = xr.where((da < THRESHOLD_C).groupby(ym).sum(t, skipna=False) > SLEEP_HOURS, SLEEP_HOURS,
+                         (da < THRESHOLD_C).groupby(ym).sum(t, skipna=False))
+        sel = dict(latitude=xr.DataArray(pop.lat.values), longitude=xr.DataArray(pop.lon.values))
+        for y in sorted(set(int(v // 100) for v in ym.values)):
+            ks = [y * 100 + mo for mo in (6, 7, 8)]; w = np.array([30.0, 31.0, 31.0])
+            rl = np.array([float(np.average(below.sel(ym=k).sel(**sel, method="nearest").values,
+                                            weights=pop.population.values)) for k in ks])
+            rows.append(dict(country="eight_countries", year=y, jja_mean_temp_c=float("nan"),
+                             relief_per_person_h=round(float((rl * w).sum() / w.sum()), 4)))
+    pd.DataFrame(rows).to_csv(DATA / "summers_by_country.csv", index=False)
+    # All twelve months, if the monthly-means download is present (download_raw.py --months)
+    mm = RAW / "italy_monthly_means.nc"
+    if mm.exists():
+        da = xr.open_dataset(mm)["t2m"] - 273.15; t = "valid_time" if "valid_time" in da.dims else "time"
+        f0 = da.isel({t: 0}); lon, lat = np.meshgrid(f0.longitude.values, f0.latitude.values)
+        g = prep(shape(ne_borders["italy"]))
+        m = np.fromiter((g.contains(Point(x, y)) for x, y in zip(lon.ravel(), lat.ravel())),
+                        bool, lon.size).reshape(lon.shape) & ~np.isnan(f0.values)
+        monthly = [dict(year=int(v.dt.year), month=int(v.dt.month),
+                        mean_temp_c=round(float(da.sel({t: v}).values[m].mean()), 4)) for v in da[t]]
+    pd.DataFrame(monthly).to_csv(DATA / "italy_monthly_mean_temp.csv", index=False)
+    print(f"per-summer tables written ({'all twelve months' if mm.exists() else 'June-August only'})")
 
 
 if __name__ == "__main__":

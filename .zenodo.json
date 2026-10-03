@@ -1,0 +1,22 @@
+{
+  "title": "BIG IF TRUE #001 — Southern Europe has stopped cooling down at night: code and data",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Gallotti, Riccardo",
+      "affiliation": "Fondazione Bruno Kessler (FBK)"
+    }
+  ],
+  "description": "Code and shared data behind the BIG IF TRUE article on summer nights in southern Europe (English and Italian editions). check_numbers.py recomputes every number the article prints from the shared data (64 checks); the figure scripts redraw all six figures, in both languages, from the shared data. Hours of relief: of the eight coldest hours of each month's average daily cycle, how many stay below 20 °C; June–August, 1980–1989 against 2020–2025, ERA5-Land at 0.1°, population-weighted with Eurostat's 2021 census grid.",
+  "license": "MIT",
+  "keywords": [
+    "tropical nights",
+    "night-time heat",
+    "ERA5-Land",
+    "southern Europe",
+    "Italy",
+    "reproducibility",
+    "BIG IF TRUE"
+  ],
+  "notes": "Code written by Claude (Anthropic) under the author's direction: Claude Opus 5 and Claude Opus 5.5 in a regular Claude chat (analysis and writing), Claude Sonnet 5.5 in Claude Code (repository). Usage in USAGE.md: Claude Code measured; the chat's cost is unknown because a regular Claude chat keeps no token record. The MIT licence covers the code. Data: ERA5-Land, Copernicus Climate Change Service, Copernicus licence with attribution (doi:10.24381/cds.68d2bb30); population_by_cell.csv derived from the Eurostat GISCO 2021 census grid, \u00a9 European Union, Eurostat, with CC BY 4.0 assumed per Eurostat's census-grid page; outlines from Natural Earth, public domain."
+}

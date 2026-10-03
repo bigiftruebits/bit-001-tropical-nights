@@ -4,7 +4,8 @@ Download the public raw inputs, only if you want to rebuild data/ yourself
 numbers and figures do not need this: data/ already holds everything.
 
     pip install "cdsapi>=0.7.2" requests
-    python download_raw.py
+    python download_raw.py            # everything
+    python download_raw.py --months   # only the all-months file (a few MB)
 
 ERA5-Land needs a free Copernicus account and a token in ~/.cdsapirc:
     url: https://cds.climate.copernicus.eu/api
@@ -14,8 +15,9 @@ and the dataset licence accepted once, in a browser, on the dataset page.
 The population grid must be downloaded by hand (see README): Eurostat attaches
 download conditions to it that you accept on its page.
 """
-import requests, cdsapi
+import sys, requests, cdsapi
 from config import RAW
+MONTHS_ONLY = "--months" in sys.argv   # just the all-months file used for the month-by-month claims
 
 RAW.mkdir(exist_ok=True)
 AREAS = {"italy": [47.6, 6.0, 35.3, 19.0],       # N, W, S, E
@@ -23,6 +25,18 @@ AREAS = {"italy": [47.6, 6.0, 35.3, 19.0],       # N, W, S, E
 YEARS = {"1980s": [str(y) for y in range(1980, 1990)],
          "2020s": [str(y) for y in range(2020, 2026)]}
 c = cdsapi.Client()
+mm = RAW / "italy_monthly_means.nc"
+if not mm.exists():
+    # All twelve months, plain monthly means: for "June warmed more than any other
+    # month" and the September figures in the limitations (small, a few MB)
+    c.retrieve("reanalysis-era5-land-monthly-means", {
+        "product_type": ["monthly_averaged_reanalysis"], "variable": ["2m_temperature"],
+        "year": YEARS["1980s"] + YEARS["2020s"], "month": [f"{m:02d}" for m in range(1, 13)],
+        "time": ["00:00"], "area": AREAS["italy"],
+        "data_format": "netcdf", "download_format": "unarchived"}, str(mm))
+    print("got", mm.name)
+if MONTHS_ONLY:
+    sys.exit(0)
 for region, area in AREAS.items():
     for dec, years in YEARS.items():
         out = RAW / f"{region}_{dec}.nc"

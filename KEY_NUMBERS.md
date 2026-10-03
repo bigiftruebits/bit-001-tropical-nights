@@ -95,12 +95,24 @@ Gap widened from 0.9 h to 3.3 h. (Earlier recorded as 0.8 -> 3.2 with Crema at 3
 
 ## Monthly warming, Italy (quoted in the limitations box)
 
+Verified 2026-09-28 from `italy_monthly_means.nc` (ERA5-Land monthly means, final data, all twelve months), Natural Earth Italy outline, by `check_numbers.py`. Replaces the earlier values, which came from a run that could not be repeated after a container reset; the claims all stand.
+
 | month | 1980s | 2020s | change |
 |---|---|---|---|
-| June | 17.5 °C | 20.7 °C | +3.2 |
-| September | 17.7 °C | 18.7 °C | +1.0 |
+| Jan | 2.5 °C | 4.5 °C | +1.97 |
+| Feb | 3.2 °C | 6.2 °C | +3.00 |
+| Mar | 6.1 °C | 7.8 °C | +1.69 |
+| Apr | 9.6 °C | 10.8 °C | +1.16 |
+| May | 13.7 °C | 15.4 °C | +1.65 |
+| Jun | 17.7 °C | 20.9 °C | +3.21 |
+| Jul | 21.2 °C | 23.5 °C | +2.26 |
+| Aug | 20.9 °C | 23.1 °C | +2.22 |
+| Sep | 17.9 °C | 18.9 °C | +1.01 |
+| Oct | 13.2 °C | 14.4 °C | +1.25 |
+| Nov | 7.4 °C | 9.3 °C | +1.84 |
+| Dec | 4.1 °C | 5.7 °C | +1.63 |
 
-National monthly mean temperature over all hours — not night temperatures. **Provenance:** computed earlier in the analysis session from the ERA5-Land monthly-means file, using the hand-drawn Italy mask in use at the time (Natural Earth borders came later; Italian figures moved by under 0.1 °C when they did). The working data were lost in a container reset, so these values could not be re-run for this file; they are as reported at the time.
+- June warmed more than any other month (+3.21 °C; February next, +3.00); September least of all twelve (+1.01 °C; April next, +1.16).
 
 ## Italy, one summer at a time (population-weighted hours of relief)
 
@@ -136,3 +148,29 @@ From `t2m_diurnal_JJA2026_southern_europe.nc`: June final ERA5-Land, July and Au
 | Greece | 3.03 h | 1.29 h | 2.20 h | 1.80 h |
 
 Land averages weighted by cell area (cosine of latitude), within each country's Natural Earth outline. Relief is lower where people live in all three; the loss is larger where people live in Italy and Spain only.
+
+## Sampling uncertainty, recomputed (2026-09-28)
+
+Year-by-year resampling of the summers, 20,000 draws, fixed seed 20260928 (`check_numbers.py`).
+
+| | warming | ± °C (95%) | loss per person | ± h (95%) |
+|---|---|---|---|---|
+| Italy | +2.56 °C | 0.66 | 2.85 h | 0.69 |
+| Spain | +2.45 °C | 0.71 | 2.19 h | 0.60 |
+| Greece | +2.22 °C | 0.88 | 1.80 h | 0.76 |
+
+- Italy loses more than Spain in 99% of draws; Spain more than Greece in only 82%.
+- Replaces the earlier "roughly ±0.6 °C" and "the ordering of the three countries does not depend on it".
+- June warming +3.21 °C reproduced; September still needs the all-months download.
+
+## Headline range (Verdict and numbers strip)
+
+Eight countries, loss per person per night: **2.29 h, 95% interval 1.75–2.81** (±0.53, "give or take half an hour"). In full cool nights per summer: 26 (20–32); as a share of a lifetime's nights: 7% (5.5–8.9%, "between about 6% and 9%"). Year-by-year resampling, fixed seed 20260928.
+
+Natural frequencies used in the prose for the population shares: under 4 h, 23.5% → 62.5% ("about one in four" → "more than three in five"); a full 8 h, 37.7% → 17.4% ("almost two in five" → "about one in six").
+
+## Numbers quoted from other work
+
+- Vavassori, Žgela & Brovelli 2026 (doi:10.1007/s12518-026-00734-x): 2.2 km reanalysis; 100-plus Air Force stations; 1981–2024; tropical nights rising about 6–7 days per decade, steepest below 500 m.
+- Murage, Hajat & Kovats 2017 (doi:10.1097/EE9.0000000000000005): London, 1993–2015.
+- Kim et al. 2023 (doi:10.1289/EHP11444): about 10% excess all-cause mortality on hot nights, Japan.

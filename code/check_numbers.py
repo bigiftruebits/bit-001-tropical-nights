@@ -109,7 +109,56 @@ check("share with under 4 h, 2020s (%)", w[b < 4].sum() / w.sum() * 100, 62, 0)
 check("share with a full 8 h, 1980s (%)", w[a >= 7.5].sum() / w.sum() * 100, 38, 0)
 check("share with a full 8 h, 2020s (%)", w[b >= 7.5].sum() / w.sum() * 100, 17, 0)
 
-print(f"\n{sum(results)} of {len(results)} numbers reproduce the published values.")
-print("\nNot reproducible from data/ alone, by design (they need the raw downloads):")
-print("  - the ±0.6 °C sampling uncertainty (year-by-year bootstrap of the raw temperatures)")
-print("  - June +3.2 °C / September +1.0 °C (needs a monthly-means download that includes September)")
+print("\nUncertainty — resampling the summers year by year (fixed seed, 20,000 draws)")
+sm = pd.read_csv(DATA / "summers_by_country.csv")
+rng = np.random.default_rng(20260928)
+yA, yB = np.arange(1980, 1990), np.arange(2020, 2026)
+draws = [(rng.choice(yA, 10), rng.choice(yB, 6)) for _ in range(20000)]
+def spread(col):
+    out = {}
+    for c in ("italy", "spain", "greece"):
+        s = sm[sm.country == c].set_index("year")[col]
+        d = np.array([s.loc[a].mean() - s.loc[b].mean() for a, b in draws])
+        out[c] = d if col == "relief_per_person_h" else -d            # warming = recent - past
+    return out
+warm, loss = spread("jja_mean_temp_c"), spread("relief_per_person_h")
+half = lambda d: (np.percentile(d, 97.5) - np.percentile(d, 2.5)) / 2
+for c, pub in (("italy", 0.7), ("spain", 0.7), ("greece", 0.9)):
+    check(f"{c}: sampling uncertainty on the warming (± °C, 95%)", half(warm[c]), pub, 1)
+s8 = sm[sm.country == "eight_countries"].set_index("year")["relief_per_person_h"]
+d8 = np.array([s8.loc[a].mean() - s8.loc[b].mean() for a, b in draws])
+check("8 countries: headline loss, give or take half an hour (± h, 95%)", half(d8), 0.5, 1)
+check("8 countries: full cool nights lost, low end (20)", np.percentile(d8, 2.5) * 92 / 8, 20, 0)
+check("8 countries: full cool nights lost, high end (32)", np.percentile(d8, 97.5) * 92 / 8, 32, 0)
+check("lifetime share, low end (about 6%)", np.percentile(d8, 2.5) * 92 / 8 / 365.25 * 100, 6, 0)
+check("lifetime share, high end (about 9%)", np.percentile(d8, 97.5) * 92 / 8 / 365.25 * 100, 9, 0)
+hs = {c: half(loss[c]) for c in ("italy", "spain", "greece")}
+for c, h in hs.items():
+    print(f"        {c + ': spread of the loss per person (± h, 95%)':62s} {h:9.2f}")
+ok = max(hs.values()) <= 0.8 and max(hs.values()) >= 0.7; results.append(ok)
+print(f"  {'PASS' if ok else 'FAIL'}  {'no country off by more than about three-quarters of an hour':62s} {max(hs.values()):9.2f}   published: up to about 0.75")
+p1 = np.mean(loss["italy"] > loss["spain"]) * 100; p2 = np.mean(loss["spain"] > loss["greece"]) * 100
+ok1, ok2 = p1 >= 95, p2 < 95; results += [ok1, ok2]
+print(f"  {'PASS' if ok1 else 'FAIL'}  {'Italy loses the most, whichever summers are drawn (% of draws)':62s} {p1:9.1f}   published: holds regardless")
+print(f"  {'PASS' if ok2 else 'FAIL'}  {'Spain vs Greece is not settled (% of draws Spain loses more)':62s} {p2:9.1f}   published: does not hold regardless")
+
+print("\nMonths — Italy, mean temperature")
+mo = pd.read_csv(DATA / "italy_monthly_mean_temp.csv")
+chg = lambda m: mo[(mo.month == m) & (mo.year >= 2020)].mean_temp_c.mean() - mo[(mo.month == m) & (mo.year < 2000)].mean_temp_c.mean()
+check("June warming (°C)", chg(6), 3.2, 1)
+if mo.month.nunique() == 12:
+    c12 = {m: chg(m) for m in range(1, 13)}
+    ok = max(c12, key=c12.get) == 6; results.append(ok)
+    print(f"  {'PASS' if ok else 'FAIL'}  {'June warmed more than any other month':62s} {'June' if ok else max(c12, key=c12.get):>9s}")
+    check("September warming (°C)", c12[9], 1.0, 1)
+    lvl = lambda m, old: mo[(mo.month == m) & ((mo.year < 2000) if old else (mo.year >= 2020))].mean_temp_c.mean()
+    check("June minus September, 1980s (°C; 'the two were level')", lvl(6, True) - lvl(9, True), 0, 0)
+    check("June minus September, 2020s (°C; 'some 2 °C warmer')", lvl(6, False) - lvl(9, False), 2, 0)
+    extra = []
+else:
+    extra = ["  - September, and 'June warmed more than any other month': run `python download_raw.py --months`",
+             "    then `python make_intermediate.py` to add all twelve months to data/"]
+
+print(f"\n{sum(results)} of {len(results)} checks reproduce the published values.")
+if extra:
+    print("\nNot yet checkable from data/:"); print("\n".join(extra))

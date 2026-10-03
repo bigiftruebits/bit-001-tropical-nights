@@ -5,22 +5,13 @@ night"* (English) / *"L'Europa meridionale ha smesso di rinfrescarsi di notte"*
 (Italian): every figure, and every number the article prints.
 
 Author: Riccardo Gallotti, Fondazione Bruno Kessler (FBK).
-Code written and run by Claude Opus 5 (Anthropic), working from the author's
-instructions.
-
-Site with the figures: https://bigiftruebits.github.io/bit-001-tropical-nights/
-
-## Cards on the table
-
-- **Who did what:** code written and run by Claude Opus 5 (Anthropic) under the author's direction; the author set the questions, framing and editorial choices. The code was not re-read line by line and nothing is peer-reviewed.
-- **Errors found and fixed:** 17 entries in [`NOTES.md`](NOTES.md).
-- **Numbers:** every number in [`KEY_NUMBERS.md`](KEY_NUMBERS.md); `check_numbers.py` re-derives 48 of them.
-- **Peer-reviewed work on the same question:** Vavassori, Žgela & Brovelli, *Applied Geomatics* 18:84 (2026), open access (the benchmark).
-- **Sources behind the health and cooling statements:** Murage, Hajat & Kovats, *Environmental Epidemiology* (London, 1993–2015) and the nationwide Japanese analysis in *Environmental Health Perspectives* 131 (2023) on night-time heat and mortality; de Munck et al., *Int. J. Climatology* 33 (2013), Salamanca et al., *J. Geophys. Res. Atmos.* 119 (2014) and the IEA's *The Future of Cooling* (2018) on air conditioning.
-- **Code and data:** open, in this repository.
-- **How to cite:** one Zenodo record holds both the code and the data of this issue; cite its DOI, not the post. DOI: *to be added at publication.*
-
-**Reproduced it, or found a difference?** Open an issue titled "Reproduced" or "Mismatch" with what you ran and what you got.
+Figures and a short guide: https://bigiftruebits.github.io/bit-001-tropical-nights/
+How to cite: one Zenodo record holds this issue's code and data; cite its DOI, not the post. DOI: *to be added at publication.*
+Code written by Claude (Anthropic), working from the author's instructions:
+Claude Opus 5, then Claude Opus 5.5, in a regular Claude chat (analysis and
+writing); this repository set up in Claude Code, almost entirely by Claude
+Sonnet 5.5. Usage, measured where it could be and declared unknown where it
+could not: `USAGE.md`.
 
 ## Check the article in three commands
 
@@ -32,9 +23,10 @@ python make_fig1.py en         # and make_fig2.py, make_fig3.py; "it" for Italia
 python check_cities.py         # does each quoted place's value describe the place?
 ```
 
-`check_numbers.py` reads only `data/` and compares 48 numbers with the values
-printed in the article. On the published data all 48 pass. The figure scripts
-redraw the published figures, in both languages, pixel for pixel. Nothing is
+`check_numbers.py` reads only `data/` and runs 64 checks against the values
+printed in the article, including the sampling uncertainty, which it recomputes
+by resampling the summers year by year (fixed seed). On the published data all 64 pass. The figure scripts
+redraw the published figures, in both languages, from `data/`: same data, labels and colours. Exact pixel positions of titles and margins can differ by a few pixels between matplotlib versions (a 2026-10-04 test with matplotlib 3.11.2 showed this; the IF figures came out 1 px taller), so compare the figures by eye or by their data, not by checksum. Nothing is
 downloaded and no account is needed.
 
 A FAIL, or a figure that differs, is a finding. Please report it: the article's
@@ -51,6 +43,8 @@ receipts promise that errors found will be recorded in the bug log
 | `population_by_cell.csv` | people assigned to each southern-Europe grid cell, eight countries, 134.9 million |
 | `borders.geojson` | outlines of the eight countries counted |
 | `frame_outlines.geojson` | every country outline inside Figure 3's frame |
+| `summers_by_country.csv` | one row per country and summer: mean temperature and hours of relief per person — for the uncertainty |
+| `italy_monthly_mean_temp.csv` | Italy's mean temperature for every month of the sixteen years (ERA5-Land monthly means) |
 | `era5land_orography_italy.nc` | ERA5-Land's own terrain height, for `check_cities.py` |
 
 All grids are ERA5-Land at 0.1° (~9 km). Periods: June–August 1980–1989 (ten
@@ -77,19 +71,18 @@ Paths are set in `code/config.py`; raw files go in `raw/`.
 | source | what | licence |
 |---|---|---|
 | Copernicus Climate Change Service, ERA5-Land monthly averaged reanalysis by hour of day, 2 m temperature | temperatures | Copernicus licence; attribution required — "Generated using Copernicus Climate Change Service information 2026" |
-| Eurostat GISCO, 5 km statistical grid with 2021 census population (`grid_5km_surf.gpkg`, `TOT_P_2021`), https://ec.europa.eu/eurostat/web/gisco/geodata/grids | population | © European Union, Eurostat. Eurostat's census-grid page states that EU copyright rules apply and that the licence would be CC BY 4.0 for the census grid 2021; `TOT_P_2021` in this file is that census data, and CC BY 4.0 is assumed here (see `DATA_MANIFEST.md`). `population_by_cell.csv` is derived from this grid |
+| Eurostat GISCO, 5 km statistical grid with 2021 census population (`grid_5km_surf.gpkg`, `TOT_P_2021`), https://ec.europa.eu/eurostat/web/gisco/geodata/grids | population | © European Union, Eurostat. Eurostat's census-grid page states that EU copyright rules apply and that the licence would be CC BY 4.0 for the 2021 census grid. `TOT_P_2021` is that census, so CC BY 4.0 is assumed here, with attribution (the older non-commercial conditions apply to the 2006 and 2011 grids; not confirmed in writing for the 5 km file). `population_by_cell.csv` is derived from this grid |
 | Natural Earth 1:10m admin-0 countries | country outlines | public domain |
 
-## What cannot be checked from `data/` alone
+Verified 2026-10-04: with `download_raw.py` (which also fetches `italy_monthly_means.nc`, a few MB) and the Eurostat grid saved by hand, `make_intermediate.py` rebuilds every file in `data/` identically (see `DATA_MANIFEST.md`).
 
-Two statements in the article's limitations rest on inputs not in this
-package, and say so here rather than pass silently:
+## What is and isn't checked
 
-- the **±0.6 °C** sampling uncertainty on the warming, which comes from
-  resampling the raw summers year by year;
-- **June +3.2 °C, September +1.0 °C**, which needs a monthly-means download
-  that includes September, and was computed in an earlier run that could not be
-  repeated after its working files were lost.
+Every number the article prints is checked from `data/` as shipped — 64 checks,
+including the ±0.7 °C sampling uncertainty (±0.9 °C in Greece), which is
+recomputed by resampling the summers year by year, and the month-by-month
+claims (June warmed most, September least), from all twelve months of
+ERA5-Land monthly means.
 
 ## Licence
 

@@ -7,6 +7,8 @@ authors:
 date-released: 2026-09-28
 license: MIT
 message: >-
-  Code written and executed by Claude Opus 5 (Anthropic) under the author's
-  direction. Temperatures: Copernicus Climate Change Service, ERA5-Land.
-  Population: Eurostat GISCO, 2021 census grid. Outlines: Natural Earth.
+  Code written by Claude (Anthropic) under the author's direction: Claude Opus 5
+  and Claude Opus 5.5 in a regular Claude chat (analysis and writing), Claude
+  Sonnet 5.5 in Claude Code (repository). Usage in USAGE.md. Temperatures:
+  Copernicus Climate Change Service, ERA5-Land. Population: Eurostat GISCO,
+  2021 census grid. Outlines: Natural Earth.
