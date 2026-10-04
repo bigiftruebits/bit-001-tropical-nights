@@ -1,16 +1,14 @@
 # bit-001 usage ledger (Southern Europe has stopped cooling down at night)
 
-Create as `claude/bit-001-usage-ledger.md`. Effective tokens as defined in
-`claude/USAGE-TRACKING-INSTRUCTIONS.md`.
+Effective tokens = input + 0.1 × cache read + 2 × cache write + 5 × output.
 
 ## 2026-10-03 — catch-up by the #001 analysis chat (claude.ai, not linked)
 No usage receipt possible: the chat has no `.jsonl` transcript, and its text transcript
 (2026-08-22 → 2026-08-25) carries no token counts. Cost of every phase below: **unknown**.
-External input: the consolidation chat's revision of 2026-09-18/20 (files: `bit-001-*-article*.md`,
-`bit-001-change-log-2026-09-18.md`); its cost belongs to that chat's ledger.
+External input: the consolidation chat's revision of 2026-09-18/20 (its article texts and change log); its cost belongs to that chat's ledger.
 
-## 2026-10-03 — token count by the #001 analysis chat (`count_tokens.py`, claude/TOKEN-COUNT-HOWTO.md)
-Ran with the chat's own shell (Bash). Output: `NO TRANSCRIPT: ~/.claude/projects/*/*.jsonl does not exist here -> record cost as unknown (reason: no transcript in this environment)`. Confirmed: `/root/.claude` does not exist and no `.jsonl` file exists anywhere in the sandbox. This chat is a claude.ai project chat, not a Cowork chat, so its sandbox keeps no `.jsonl` transcript. **Cost of this chat: `unknown (claude.ai chat, no transcript)`** — expected for a regular claude.ai chat (TOKEN-COUNT-HOWTO, "Regular claude.ai chats").
+## 2026-10-03 — token count by the #001 analysis chat (`count_tokens.py`, the project's token-count how-to)
+Ran with the chat's own shell (Bash). Output: `NO TRANSCRIPT: ~/.claude/projects/*/*.jsonl does not exist here -> record cost as unknown (reason: no transcript in this environment)`. Confirmed: `/root/.claude` does not exist and no `.jsonl` file exists anywhere in the sandbox. This chat is a claude.ai project chat, not a Cowork chat, so its sandbox keeps no `.jsonl` transcript. **Cost of this chat: `unknown (claude.ai chat, no transcript)`** — expected for a regular claude.ai chat (the project's token-count how-to, "Regular claude.ai chats").
 
 ## 2026-10-03 — Claude Code share of bit-001 (measured)
 Source: `tools/bit_usage.py`, from the Claude Code transcripts on the Mac, split by BIT; pasted by Riccardo. Period 2026-10-01 → 10-03, 57 responses. Effective tokens computed here from its exact counts.
