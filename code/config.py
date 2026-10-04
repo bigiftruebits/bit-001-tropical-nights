@@ -1,10 +1,14 @@
-"""Every path and methodological choice in one place.
+"""
+Every path and methodological choice of the analysis, in one place.
 
-Paths are relative to the package root, so the package runs wherever it is
-unpacked. Change RAW only if you rebuild data/ from the public downloads.
+Periods, the 20 °C threshold, the eight coolest hours, the population snap
+distance, the Figure 3 frame and the eight countries counted. Paths are
+relative to the package root, so it runs wherever it is unpacked.
+
+    imported by the other scripts
 
 BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
-Author: Riccardo Gallotti (FBK). Code by Claude Opus 5 and Claude Opus 5.5 under his direction.
+Author: Riccardo Gallotti (FBK). Code by Claude Opus 5, then Claude Opus 5.5, under his direction.
 Licence: MIT (code); data licences in DATA_MANIFEST.md.
 """
 from pathlib import Path

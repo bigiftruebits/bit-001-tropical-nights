@@ -1,27 +1,16 @@
 """
-Build the shared intermediate data from the raw downloads.
+Build the shared intermediate data in data/ from the raw downloads.
 
-Readers do NOT need to run this: its output is already in data/. It is here so
-anyone can rebuild data/ from the public sources and check that step too.
+Reads raw/ (ERA5-Land, the Eurostat 2021 census grid, Natural Earth); writes
+hours of relief and tropical-night maps per decade, population per grid cell,
+the outlines, and the per-summer tables used for the uncertainty.
 
-Raw inputs (paths set in config.py -> RAW):
-  ERA5-Land, monthly averaged reanalysis by hour of day, 2 m temperature, JJA
-    italy_1980s.nc, italy_2020s.nc              box 47.5N 6E 35.5N 19E
-    seu_1980s.nc,   seu_2020s.nc                box 48N -10E 34N 30E
-  Eurostat GEOSTAT 2021, 5 km grid              grid_5km_surf.gpkg
-  Natural Earth 1:10m admin-0 countries          ne_10m_admin_0_countries.geojson
-
-Output (config.DATA):
-  italy_relief_{1980s,2020s}.nc, italy_tropical_{1980s,2020s}.nc
-  seu_relief_{1980s,2020s}.nc
-  population_by_cell.csv      people assigned to each southern-Europe grid cell
-  borders.geojson             outlines of the eight countries counted
-  frame_outlines.geojson      every country outline inside the Figure 3 frame
+    python make_intermediate.py
 
 BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
-Author: Riccardo Gallotti (FBK). Code by Claude Opus 5 under his direction.
-
-Licence: MIT (code); data licences in DATA_MANIFEST.md."""
+Author: Riccardo Gallotti (FBK). Code by Claude Opus 5, then Claude Opus 5.5, under his direction.
+Licence: MIT (code); data licences in DATA_MANIFEST.md.
+"""
 import json, sqlite3
 import numpy as np, pandas as pd, xarray as xr
 from shapely.geometry import shape, box, mapping, Point

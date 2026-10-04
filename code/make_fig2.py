@@ -1,16 +1,15 @@
-"""Figure 2 — IF: the same cities measured two ways. Phone-sized.
+"""
+Draw Figure 2 (IF): six cities measured as tropical nights and as hours of relief.
 
-    python make_fig2.py en|it        -> figures/fig-001-if-hours-of-relief[-it].png
+Reads data/; writes figures/. One chart, same cities in the same rows;
+phone-sized and checked like Figure 1.
 
-One test, as IF requires (§4.9): six cities, ordered by how much their tropical
-nights rose, measured first by tropical nights and then by hours of relief, in
-the same rows. Drawn 4.4 in wide, no text under 9 pt, height <= 1.75 x width
-(§4.12), enforced below. Reads data/ only.
+    python make_fig2.py en|it
 
 BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
-Author: Riccardo Gallotti (FBK). Code by Claude Opus 5.5 under his direction.
-
-Licence: MIT (code); data licences in DATA_MANIFEST.md."""
+Author: Riccardo Gallotti (FBK). Code by Claude Opus 5, then Claude Opus 5.5, under his direction.
+Licence: MIT (code); data licences in DATA_MANIFEST.md.
+"""
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import DATA, FIGURES

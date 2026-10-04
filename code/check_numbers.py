@@ -1,16 +1,16 @@
 """
-Recompute every number in BIG IF TRUE #001 from the shared data in data/, and
-compare each one with the value printed in the article.
+Recompute every number the article prints and compare it with the published value.
+
+Reads only data/. Prints PASS or FAIL per number, including the sampling
+uncertainty from resampling the summers (fixed seed). A FAIL is a finding
+and goes in the bug log.
 
     python check_numbers.py
 
-Reads only data/. Prints one line per number: PASS if it rounds to the
-published value, FAIL otherwise. A FAIL is a finding: please report it.
-
 BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
-Author: Riccardo Gallotti (FBK). Code by Claude Opus 5 under his direction.
-
-Licence: MIT (code); data licences in DATA_MANIFEST.md."""
+Author: Riccardo Gallotti (FBK). Code by Claude Opus 5, then Claude Opus 5.5, under his direction.
+Licence: MIT (code); data licences in DATA_MANIFEST.md.
+"""
 import json
 import numpy as np, pandas as pd, xarray as xr
 from shapely.geometry import shape, Point

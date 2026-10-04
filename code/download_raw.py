@@ -1,22 +1,15 @@
 """
-Download the public raw inputs, only if you want to rebuild data/ yourself
-(python make_intermediate.py). Readers who only want to check the article's
-numbers and figures do not need this: data/ already holds everything.
+Download the public raw inputs, to rebuild data/ from scratch.
 
-    pip install "cdsapi>=0.7.2" requests
+Fetches ERA5-Land (Copernicus account needed), all twelve months for Italy,
+and the Natural Earth outlines into raw/; says where to get the Eurostat
+population grid by hand. Not needed to check the article: data/ is shipped.
+
     python download_raw.py            # everything
-    python download_raw.py --months   # only the all-months file (a few MB)
-
-ERA5-Land needs a free Copernicus account and a token in ~/.cdsapirc:
-    url: https://cds.climate.copernicus.eu/api
-    key: <YOUR-PERSONAL-ACCESS-TOKEN>
-and the dataset licence accepted once, in a browser, on the dataset page.
-
-The population grid must be downloaded by hand (see README): Eurostat attaches
-download conditions to it that you accept on its page.
+    python download_raw.py --months   # only the all-months file
 
 BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
-Author: Riccardo Gallotti (FBK). Code by Claude Opus 5 and Claude Opus 5.5 under his direction.
+Author: Riccardo Gallotti (FBK). Code by Claude Opus 5, then Claude Opus 5.5, under his direction.
 Licence: MIT (code); data licences in DATA_MANIFEST.md.
 """
 import sys, requests, cdsapi

@@ -1,17 +1,16 @@
 """
-Does each quoted place's value describe the place? Reads data/ only.
+Check whether each quoted place's value describes the place.
 
-For every city in the article: is its own grid cell land or sea, how far away is
-the cell actually used, how high does ERA5-Land's terrain put that cell, and how
-much do hours of relief vary across the land cells within 15 km? A large spread
-means the city's value depends on which cell is picked.
+Reads only data/. For each city: is its own grid cell land or sea, how far
+away is the cell used, how high is it, and how much do hours of relief vary
+within 15 km.
 
     python check_cities.py
 
 BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
-Author: Riccardo Gallotti (FBK). Code by Claude Opus 5 under his direction.
-
-Licence: MIT (code); data licences in DATA_MANIFEST.md."""
+Author: Riccardo Gallotti (FBK). Code by Claude Opus 5, then Claude Opus 5.5, under his direction.
+Licence: MIT (code); data licences in DATA_MANIFEST.md.
+"""
 import numpy as np, pandas as pd, xarray as xr
 from config import DATA
 

@@ -1,17 +1,15 @@
-"""Figure 3 — TRUE: the whole basin, and the people in it. Phone-sized composite.
+"""
+Draw Figure 3 (TRUE): the basin maps and the population bands, panels a-c.
 
-    python make_fig3.py en|it        -> figures/fig-001-true-hours-of-relief[-it].png
+Reads data/; writes figures/. Lettered composite; phone-sized and checked
+like Figure 1.
 
-Lettered panels (§4.9): (a) hours of relief 1980-1989 and (b) 2020-2025, every
-land cell ERA5-Land covers in the frame; (c) Greece, Italy and Spain only, the
-population split into four bands, each label carrying the country's average
-hours per person. Drawn 4.4 in wide, no text under 9 pt, height <= 1.75 x width
-(§4.12), enforced below. Reads data/ only.
+    python make_fig3.py en|it
 
 BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
-Author: Riccardo Gallotti (FBK). Code by Claude Opus 5.5 under his direction.
-
-Licence: MIT (code); data licences in DATA_MANIFEST.md."""
+Author: Riccardo Gallotti (FBK). Code by Claude Opus 5, then Claude Opus 5.5, under his direction.
+Licence: MIT (code); data licences in DATA_MANIFEST.md.
+"""
 import sys, os, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import DATA, FIGURES, FRAME
