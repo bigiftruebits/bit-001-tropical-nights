@@ -335,7 +335,7 @@ for the people who were already lying awake.
 |     [[na                                                              |
 | turalearthdata.com]{.underline}](https://www.naturalearthdata.com/)). |
 |                                                                       |
-| -   **Peer-reviewed benchmark ---** Vavassori, Žgela & Brovelli,      |
+| -   **Related peer-reviewed work ---** Vavassori, Žgela & Brovelli,   |
 |     Applied Geomatics 18:84 (2026), open access,                      |
 |     [[doi:10.1007/s12518-0                                            |
 | 26-00734-x]{.underline}](https://doi.org/10.1007/s12518-026-00734-x). |

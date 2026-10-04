@@ -356,8 +356,8 @@ chi era già sveglio.
 |     [[na                                                              |
 | turalearthdata.com]{.underline}](https://www.naturalearthdata.com/)). |
 |                                                                       |
-| -   **Riferimento peer-reviewed ---** Vavassori, Žgela & Brovelli,    |
-|     Applied Geomatics 18:84 (2026), ad accesso aperto,                |
+| -   **Studi peer-reviewed correlati ---** Vavassori, Žgela &          |
+|     Brovelli, Applied Geomatics 18:84 (2026), ad accesso aperto,      |
 |     [[doi:10.1007/s12518-0                                            |
 | 26-00734-x]{.underline}](https://doi.org/10.1007/s12518-026-00734-x). |
 |     Discusso per esteso in *Cosa dice la letteratura*, qui sopra.     |
