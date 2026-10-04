@@ -6,8 +6,10 @@ Drawn 4.4 in wide with no text under 9 pt and height <= 1.75 x width (format
 §4.12); the script refuses to save a figure that breaks either rule. Reads
 data/ only. A single chart, as BIG requires (§4.9): one variable, two periods.
 
+BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
 Author: Riccardo Gallotti (FBK). Code by Claude Opus 5.5 under his direction.
-"""
+
+Licence: MIT (code); data licences in DATA_MANIFEST.md."""
 import sys, os, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import DATA, FIGURES

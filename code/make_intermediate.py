@@ -18,8 +18,10 @@ Output (config.DATA):
   borders.geojson             outlines of the eight countries counted
   frame_outlines.geojson      every country outline inside the Figure 3 frame
 
+BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
 Author: Riccardo Gallotti (FBK). Code by Claude Opus 5 under his direction.
-"""
+
+Licence: MIT (code); data licences in DATA_MANIFEST.md."""
 import json, sqlite3
 import numpy as np, pandas as pd, xarray as xr
 from shapely.geometry import shape, box, mapping, Point

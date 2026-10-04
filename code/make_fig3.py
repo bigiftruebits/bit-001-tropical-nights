@@ -8,8 +8,10 @@ population split into four bands, each label carrying the country's average
 hours per person. Drawn 4.4 in wide, no text under 9 pt, height <= 1.75 x width
 (§4.12), enforced below. Reads data/ only.
 
+BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
 Author: Riccardo Gallotti (FBK). Code by Claude Opus 5.5 under his direction.
-"""
+
+Licence: MIT (code); data licences in DATA_MANIFEST.md."""
 import sys, os, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import DATA, FIGURES, FRAME

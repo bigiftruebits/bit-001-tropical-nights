@@ -1,3 +1,4 @@
+<!-- BIT · tropical-nights · it · 2026-10-04 -->
 **BIG IF TRUE**
 
 **L\'Europa meridionale ha smesso di rinfrescarsi di notte**

@@ -1,3 +1,4 @@
+<!-- BIT · tropical-nights · en · 2026-10-04 -->
 **BIG IF TRUE**
 
 **Southern Europe has stopped cooling down at night**

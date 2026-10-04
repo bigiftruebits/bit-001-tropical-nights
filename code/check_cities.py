@@ -8,8 +8,10 @@ means the city's value depends on which cell is picked.
 
     python check_cities.py
 
+BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
 Author: Riccardo Gallotti (FBK). Code by Claude Opus 5 under his direction.
-"""
+
+Licence: MIT (code); data licences in DATA_MANIFEST.md."""
 import numpy as np, pandas as pd, xarray as xr
 from config import DATA
 
