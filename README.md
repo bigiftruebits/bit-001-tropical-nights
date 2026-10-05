@@ -6,7 +6,7 @@ night"* (English) / *"L'Europa meridionale ha smesso di rinfrescarsi di notte"*
 
 Author: Riccardo Gallotti, Fondazione Bruno Kessler (FBK).
 Figures and a short guide: https://bigiftruebits.github.io/bit-001-tropical-nights/
-How to cite: one Zenodo record holds this issue's code and data; cite its DOI, not the post. DOI: *to be added at publication.*
+How to cite: one Zenodo record holds this issue's code and data; cite the DOI shown on that record, not the post.
 Code written by Claude (Anthropic), working from the author's instructions:
 Claude Opus 5, then Claude Opus 5.5, in a regular Claude chat (analysis and
 writing); this repository set up in Claude Code, almost entirely by Claude
