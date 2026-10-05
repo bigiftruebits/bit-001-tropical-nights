@@ -30,7 +30,7 @@ TXT = {"en": dict(kicker="BIT VERDICT", gloss="fewer cool hours a night, per per
        "it": dict(kicker="BIT VERDETTO", gloss="ore fresche in meno a notte, a persona", rng={"half an hour": "± mezz’ora"},
                   fig="fig-001-preview-map-it.png", out="fig-001-preview-it.png")}[LANG]
 W, H = 1200, 630
-SAFE = (310, 125, 890, 455); TOP_END = 395            # panels in y 125-395; the bottom band only for the range line
+SAFE = (305, 80, 895, 480)     # mobile first (decision 33): everything that matters inside x 305-895, y 80-480
 SQUARE = (285, 0, 915, 630)
 BG, PANEL, BORDER, ACCENT, INK = (251, 242, 236), "white", (201, 206, 214), "#C1440E", "#26323F"
 fdir = os.path.join(matplotlib.get_data_path(), "fonts", "ttf")
@@ -46,15 +46,18 @@ if not m:
 hero = (m.group(1).replace(".", ",") if LANG == "it" else m.group(1)) + " h"
 rng = TXT["rng"].get(m.group(2), "") if m.group(2) else ""
 
-# left panel: the two maps, uncropped
-PH = TOP_END - y0; LW = round(PH * 1.1); PAD = 8
-d.rounded_rectangle([x0 + 1, y0 + 1, x0 + LW, TOP_END], radius=14, fill=PANEL, outline=BORDER, width=2)
+# left panel: the two maps, uncropped; the panel takes the maps' own shape (no empty band), and
+# both panels are centred vertically in the zone. The range sits inside the Verdict panel (5 Oct).
+LW, PAD, GAP = 372, 8, 12
 f = Image.open(FIGURES / TXT["fig"]).convert("RGB")
-s = min((LW - 2 * PAD) / f.width, (PH - 2 * PAD) / f.height); fw, fh = round(f.width * s), round(f.height * s)
-img.paste(f.resize((fw, fh), Image.LANCZOS), (x0 + (LW - fw) // 2, y0 + (PH - fh) // 2))
-# right panel: kicker, hero number, gloss
-rx0 = x0 + LW + 16; rw = x1 - 2 - rx0; ip = 18; cw = rw - 2 * ip     # 2 px in: the outline stays inside
-d.rounded_rectangle([rx0, y0, x1 - 2, TOP_END], radius=14, fill=PANEL, outline=BORDER, width=2)
+fw = LW - 2 * PAD; fh = round(f.height * fw / f.width)
+PH = fh + 2 * PAD
+py0 = y0 + ((y1 - y0) - PH) // 2; py1 = py0 + PH
+d.rounded_rectangle([x0 + 1, py0, x0 + LW, py1], radius=14, fill=PANEL, outline=BORDER, width=2)
+img.paste(f.resize((fw, fh), Image.LANCZOS), (x0 + PAD + 1, py0 + PAD))
+# right panel: kicker, hero number, gloss, range
+rx0 = x0 + LW + GAP; rw = x1 - 2 - rx0; ip = 14; cw = rw - 2 * ip     # 2 px in: the outline stays inside
+d.rounded_rectangle([rx0, py0, x1 - 2, py1], radius=14, fill=PANEL, outline=BORDER, width=2)
 size = 120
 while size > 1 and d.textlength(hero, font=font(size, True)) > cw: size -= 1
 if size < 60:
@@ -66,22 +69,26 @@ while gs >= 20:
         t = (ls[-1] + " " + w_).strip()
         if d.textlength(t, font=font(gs)) <= cw: ls[-1] = t
         else: ls.append(w_)
-    if len(ls) <= 2: lines = ls; break
+    if len(ls) <= 3: lines = ls; break
     gs -= 1
 if lines is None:
-    sys.exit("FAIL: the gloss needs more than 2 lines")
-y = y0 + ip
-d.text((rx0 + ip, y), TXT["kicker"], font=font(24, True), fill=ACCENT); y += 24 + 16
-hb = d.textbbox((0, 0), hero, font=font(size, True)); d.text((rx0 + ip, y - hb[1]), hero, font=font(size, True), fill=ACCENT)
-y += hb[3] - hb[1] + 20
+    sys.exit("FAIL: the gloss needs more than 3 lines")
+ks = 24
+while ks > 16 and d.textlength(TXT['kicker'], font=font(ks, True)) > cw: ks -= 1
+rs = 26
+while rng and rs > 16 and d.textlength(rng, font=font(rs, True)) > cw: rs -= 1
+rf = font(rs, True)
+hb = d.textbbox((0, 0), hero, font=font(size, True))
+block = ks + 14 + (hb[3] - hb[1]) + 16 + round(gs * 1.25) * len(lines) + (14 + rs if rng else 0)
+y = py0 + (PH - block) // 2
+d.text((rx0 + ip, y), TXT["kicker"], font=font(ks, True), fill=ACCENT); y += ks + 14
+d.text((rx0 + ip, y - hb[1]), hero, font=font(size, True), fill=ACCENT); y += hb[3] - hb[1] + 16
 for ln in lines:
     d.text((rx0 + ip, y), ln, font=font(gs), fill=INK); y += round(gs * 1.25)
-if y > TOP_END - 6:
-    sys.exit("FAIL: the verdict panel overflows")
-# the bottom band: the range line, which may be lost in a crop
 if rng:
-    rf = font(28, True); rwid = d.textlength(rng, font=rf)
-    d.text((rx0 + (rw - rwid) / 2, TOP_END + 18), rng, font=rf, fill=ACCENT)
+    y += 14; d.text((rx0 + ip, y), rng, font=rf, fill=ACCENT); y += rs
+if y > py1 - 10:
+    sys.exit("FAIL: the verdict panel overflows")
 FIGURES.mkdir(exist_ok=True); img.save(FIGURES / TXT["out"])
 
 # ---- read the PNG back, and save the 160 px and square-crop checks ----------------------------
