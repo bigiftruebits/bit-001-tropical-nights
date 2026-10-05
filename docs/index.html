@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>#001 Tropical nights: BIG IF TRUE</title><meta name="description" content="Southern Europe has stopped cooling down at night: figures, data and code."><meta property="og:type" content="article"><meta property="og:title" content="BIG IF TRUE #001: Southern Europe has stopped cooling down at night"><meta property="og:description" content="Figures, data and code. Every number can be re-derived."><meta property="og:image" content="https://bigiftruebits.github.io/bit-001-tropical-nights/figures/fig-001-big-tropical-nights.png"><meta name="twitter:card" content="summary_large_image">
+<title>#001 Tropical nights: BIG IF TRUE</title><meta name="description" content="Southern Europe has stopped cooling down at night: figures, data and code."><meta property="og:type" content="article"><meta property="og:title" content="BIG IF TRUE #001: Southern Europe has stopped cooling down at night"><meta property="og:description" content="Figures, data and code. Every number can be re-derived."><meta property="og:image" content="https://bigiftruebits.github.io/bit-001-tropical-nights/fig-001-preview.png"><meta name="twitter:card" content="summary_large_image">
 <style>.lang{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:.5rem 0}.lang button{font:inherit;font-size:.9rem;padding:4px 14px;border:0;background:var(--card);color:var(--fg);cursor:pointer}.lang button[aria-pressed=true]{background:var(--acc);color:#fff}</style>
 <link rel="stylesheet" href="style.css"></head><body>
 <header><div class="wrap"><a class="brand" href="../">BIG IF TRUE</a><a href="../">All issues</a><a data-repo="">Code &amp; data on GitHub</a></div></header>
@@ -15,17 +15,17 @@
 <h2>Check the article in three commands</h2>
 <pre>pip install -r requirements.txt
 cd code
-python check_numbers.py     # recomputes 64 published numbers, PASS/FAIL each
+python check_numbers.py     # recomputes 68 published numbers, PASS/FAIL each
 python make_fig1.py en      # also make_fig2.py, make_fig3.py; "it" for Italian
 python check_cities.py      # does each quoted place's value describe the place?</pre>
-<p>Nothing is downloaded and no account is needed: the intermediate data (3 MB) is in the repository. On the published data, all 64 numbers reproduce, and the figure scripts redraw the published figures from the shared data (titles and margins can shift by a few pixels between matplotlib versions). To rebuild the intermediate data from the public sources, see the <a data-repo="blob/main/README.md">README</a>.</p>
+<p>Nothing is downloaded and no account is needed: the intermediate data (3 MB) is in the repository. On the published data, all 68 numbers reproduce, and the figure scripts redraw the published figures from the shared data (titles and margins can shift by a few pixels between matplotlib versions). To rebuild the intermediate data from the public sources, see the <a data-repo="blob/main/README.md">README</a>.</p>
 <h2>Data sources</h2>
 <table><tr><th>Dataset</th><th>Provider</th></tr>
 <tr><td>ERA5-Land monthly averages by hour of day, 2 m temperature, 0.1°</td><td>Copernicus Climate Change Service</td></tr>
-<tr><td>5 km census population grid, 2021</td><td>Eurostat GISCO (© European Union, Eurostat; CC BY 4.0 assumed, per Eurostat's census-grid page)</td></tr>
+<tr><td>5 km census population grid, 2021</td><td>Eurostat GISCO (© European Union, Eurostat; CC BY 4.0, as stated on Eurostat's census-grid 2021 page)</td></tr>
 <tr><td>Country outlines, 1:10m</td><td>Natural Earth</td></tr></table>
 <h2>What is checked, and what is not</h2>
-<p>All 64 checks run from the shared data, including the ±0.7 °C sampling uncertainty (±0.9 °C in Greece), which is recomputed by resampling the summers year by year, and the month-by-month claims, from ERA5-Land monthly means. Rebuilding the data from the raw downloads is possible and was verified: every file comes back identical. The README lists what is not checked.</p>
+<p>All 68 checks run from the shared data, including the ±0.7 °C sampling uncertainty (±0.9 °C in Greece), which is recomputed by resampling the summers year by year, and the month-by-month claims, from ERA5-Land monthly means. Rebuilding the data from the raw downloads is possible and was verified: every file comes back identical. The README lists what is not checked.</p>
 <h2>How to cite</h2>
 <p>Cite the archive, not the post. One Zenodo record holds this issue's code and data together: Gallotti, R. (2026). <em>BIG IF TRUE #001, Southern Europe has stopped cooling down at night: code and data</em> (v1.0.0). Zenodo. DOI: <strong>to be added at publication</strong>.</p>
 <h2>Cards on the table</h2>

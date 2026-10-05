@@ -7,6 +7,7 @@ JJA 2020–2025 vs 1980–1989. ERA5-Land 9 km, population-weighted with GEOSTAT
 
 - population: 134.9 million
 - relief per person: 5.93 h -> 3.64 h (loss 2.29 h)
+- Verdict, Reality line: **2.3 hours a night, give or take half an hour** (2.29 h, 95% interval 1.75–2.81; the preview image's hero number)
 - person-hours lost per summer night: 308 million
 - the same, per person: 2.29 h/night x 92 nights = 211 hours = **26.3 full 8-hour cool nights, every summer** — 29% of the summer's 92 nights, the same 29% as the nightly loss of 2.29 of 8 hours
 - as a share of life: 26.3 full cool nights a year out of 365 = **7.2% of all the nights of a life**, at today's rate — the same share whatever the length of the life
@@ -87,6 +88,8 @@ Every city quoted in the article, checked against the land cells within 15 km. `
 | Crema, Po plain (~79 m) | 7.0 h | 3.0 h |
 
 Gap widened from 0.9 h to 3.3 h. (Earlier recorded as 0.8 -> 3.2 with Crema at 3.1: that run averaged months without weighting by days; every other figure is day-weighted. Exact values 6.96 -> 3.03 h.)
+
+Tropical nights, the anecdote's cells (share of the summer, printed in BIG and its numbers strip): Troina 0.0% → 5.6% (printed 0% → 6%), Crema 0.0% → 28.1% (printed 0% → 28%).
 
 ## Italy, tropical nights (Figure 1)
 

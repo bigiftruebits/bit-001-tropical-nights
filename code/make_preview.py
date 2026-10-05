@@ -1,0 +1,98 @@
+"""
+Build #001's preview image (the link card on Substack, Bluesky, X and LinkedIn), 1200 x 630.
+
+Format §9.8 as revised on 2026-10-05 (decisions 31-32): background #FBF2EC full bleed, all content in
+the central safe zone x 310-890, y 125-455. Two white rounded panels with a thin grey border, in the
+top of the zone (y 125-395), which must survive every crop: left, the TRUE figure, uncropped (its Note
+version, which shows the per-person loss); right, "BIT VERDICT", the Reality's hero number and a gloss
+of at most 8 words. The bottom band (y 395-455) holds only what may be lost: the range line.
+The number is read from KEY_NUMBERS.md ("Verdict, Reality line"), exactly as the Verdict states it.
+Fails if it is missing, if the hero would be under 60 px, or if the gloss needs a third line. After
+saving, the PNG is read back and its content box checked inside the safe zone; 160 px and centred
+square crops are saved for the checks. Run make_fig3_note.py en|it first.
+
+    python make_preview.py en|it        -> figures/fig-001-preview[-it].png
+
+BIG IF TRUE · tropical-nights · https://github.com/bigiftruebits/bit-001-tropical-nights
+Author: Riccardo Gallotti (FBK). Code by Claude Opus 5.5 under his direction.
+Licence: MIT (code); data licences in DATA_MANIFEST.md.
+"""
+import sys, os, re
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from config import ROOT, FIGURES
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont
+import matplotlib
+
+LANG = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] in ("en", "it") else "en"
+TXT = {"en": dict(kicker="BIT VERDICT", gloss="fewer cool hours a night, per person", rng={"half an hour": "± half an hour"},
+                  fig="fig-001-true-note.png", out="fig-001-preview.png"),
+       "it": dict(kicker="BIT VERDETTO", gloss="ore fresche in meno a notte, a persona", rng={"half an hour": "± mezz’ora"},
+                  fig="fig-001-true-note-it.png", out="fig-001-preview-it.png")}[LANG]
+W, H = 1200, 630
+SAFE = (310, 125, 890, 455); TOP_END = 395            # panels in y 125-395; the bottom band only for the range line
+SQUARE = (285, 0, 915, 630)
+BG, PANEL, BORDER, ACCENT, INK = (251, 242, 236), "white", (201, 206, 214), "#C1440E", "#26323F"
+fdir = os.path.join(matplotlib.get_data_path(), "fonts", "ttf")
+font = lambda px, bold=False: ImageFont.truetype(os.path.join(fdir, "DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf"), px)
+x0, y0, x1, y1 = SAFE
+img = Image.new("RGB", (W, H), BG); d = ImageDraw.Draw(img)
+
+# the Verdict's number, exactly as printed, with its range
+k = open(ROOT / "KEY_NUMBERS.md", encoding="utf8").read()
+m = re.search(r"Verdict, Reality line: \*\*(\d+(?:\.\d+)?) hours a night(?:, give or take ([^*]+))?\*\*", k)
+if not m:
+    sys.exit("FAIL: the Verdict's number is not in KEY_NUMBERS.md (line 'Verdict, Reality line')")
+hero = (m.group(1).replace(".", ",") if LANG == "it" else m.group(1)) + " h"
+rng = TXT["rng"].get(m.group(2), "") if m.group(2) else ""
+
+# left panel: the TRUE figure, uncropped
+PH = TOP_END - y0; LW = PH; PAD = 8
+d.rounded_rectangle([x0 + 1, y0 + 1, x0 + LW, TOP_END], radius=14, fill=PANEL, outline=BORDER, width=2)
+f = Image.open(FIGURES / TXT["fig"]).convert("RGB")
+s = min((LW - 2 * PAD) / f.width, (PH - 2 * PAD) / f.height); fw, fh = round(f.width * s), round(f.height * s)
+img.paste(f.resize((fw, fh), Image.LANCZOS), (x0 + (LW - fw) // 2, y0 + (PH - fh) // 2))
+# right panel: kicker, hero number, gloss
+rx0 = x0 + LW + 16; rw = x1 - 2 - rx0; ip = 18; cw = rw - 2 * ip     # 2 px in: the outline stays inside
+d.rounded_rectangle([rx0, y0, x1 - 2, TOP_END], radius=14, fill=PANEL, outline=BORDER, width=2)
+size = 120
+while size > 1 and d.textlength(hero, font=font(size, True)) > cw: size -= 1
+if size < 60:
+    sys.exit(f"FAIL: the hero number would be {size} px, below 60")
+gs, lines = 28, None
+while gs >= 20:
+    ls = [""]
+    for w_ in TXT["gloss"].split():
+        t = (ls[-1] + " " + w_).strip()
+        if d.textlength(t, font=font(gs)) <= cw: ls[-1] = t
+        else: ls.append(w_)
+    if len(ls) <= 2: lines = ls; break
+    gs -= 1
+if lines is None:
+    sys.exit("FAIL: the gloss needs more than 2 lines")
+y = y0 + ip
+d.text((rx0 + ip, y), TXT["kicker"], font=font(24, True), fill=ACCENT); y += 24 + 16
+hb = d.textbbox((0, 0), hero, font=font(size, True)); d.text((rx0 + ip, y - hb[1]), hero, font=font(size, True), fill=ACCENT)
+y += hb[3] - hb[1] + 20
+for ln in lines:
+    d.text((rx0 + ip, y), ln, font=font(gs), fill=INK); y += round(gs * 1.25)
+if y > TOP_END - 6:
+    sys.exit("FAIL: the verdict panel overflows")
+# the bottom band: the range line, which may be lost in a crop
+if rng:
+    rf = font(28, True); rwid = d.textlength(rng, font=rf)
+    d.text((rx0 + (rw - rwid) / 2, TOP_END + 18), rng, font=rf, fill=ACCENT)
+FIGURES.mkdir(exist_ok=True); img.save(FIGURES / TXT["out"])
+
+# ---- read the PNG back, and save the 160 px and square-crop checks ----------------------------
+a = np.asarray(Image.open(FIGURES / TXT["out"]).convert("RGB")).astype(int)
+ys, xs = np.where(np.abs(a - np.array(BG)).sum(axis=2) > 0)
+box = (int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1)
+inside = box[0] >= x0 and box[1] >= y0 and box[2] <= x1 and box[3] <= y1
+print(f"{TXT['out']}: hero '{hero}' {size} px ({size * 520 / W:.0f} at 520, {size * 160 / W:.0f} at 160); gloss {len(lines)} lines at {gs} px;"
+      f" box x {box[0]}-{box[2]}, y {box[1]}-{box[3]}; inside the safe zone: {inside}")
+if not inside:
+    sys.exit("FAIL: content outside the safe zone")
+im = Image.open(FIGURES / TXT["out"])
+im.resize((160, 84), Image.LANCZOS).save(FIGURES / TXT["out"].replace(".png", "-160.png"))
+im.crop(SQUARE).resize((170, 170), Image.LANCZOS).save(FIGURES / TXT["out"].replace(".png", "-square-170.png"))

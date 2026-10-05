@@ -64,11 +64,15 @@ check("Rome, share of the summer with tropical nights, 1980s (%)", at(tA, *CITIE
 check("Rome, share of the summer with tropical nights, 2020s (%)", at(tB, *CITIES["Rome"]), 73, 0)
 check("Milan, share of the summer with tropical nights, 2020s (%)", at(tB, *CITIES["Milan"]), 22, 0)
 
-print("\nAnecdote — Troina and Crema (hours of relief)")
+print("\nAnecdote — Troina and Crema (tropical nights and hours of relief)")
 tr0, tr1 = at(iA, *CITIES["Troina"]), at(iB, *CITIES["Troina"])
 cr0, cr1 = at(iA, *CITIES["Crema"]), at(iB, *CITIES["Crema"])
 check("gap Troina - Crema, 1980s (h)", tr0 - cr0, 0.9, 1)
 check("gap Troina - Crema, 2020s (h)", tr1 - cr1, 3.3, 1)
+check("Troina, share of the summer with tropical nights, 1980s (%)", at(tA, *CITIES["Troina"]), 0, 0)
+check("Troina, share of the summer with tropical nights, 2020s (%)", at(tB, *CITIES["Troina"]), 6, 0)
+check("Crema, share of the summer with tropical nights, 1980s (%)", at(tA, *CITIES["Crema"]), 0, 0)
+check("Crema, share of the summer with tropical nights, 2020s (%)", at(tB, *CITIES["Crema"]), 28, 0)
 
 print("\nIF — Figure 2 cities (tropical share %, hours of relief)")
 PUB = {"Rome": (7, 73, 5.0, 1.6, 3.4), "Bologna": (3, 62, 6.1, 1.9, 4.2), "Naples": (47, 78, 3.5, 1.0, 2.4),

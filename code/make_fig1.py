@@ -22,10 +22,10 @@ from shapely.prepared import prep
 
 LANG = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] in ("en", "it") else "en"
 # ---- everything a reader might want to change, in one table -------------------------
-TXT = {"en": dict(title="Italy’s summer nights\nstopped cooling down",
+TXT = {"en": dict(title="Rome’s hot summer nights: 7% → 73%",
                   cbar="share of the summer with a tropical night",
                   names={}, out="fig-001-big-tropical-nights.png"),
-       "it": dict(title="Le notti estive italiane\nhanno smesso di rinfrescarsi",
+       "it": dict(title="Le notti tropicali di Roma: 7% → 73%",
                   cbar="estate con notti tropicali",
                   names={"Milan": "Milano", "Rome": "Roma", "Naples": "Napoli"},
                   out="fig-001-big-tropical-nights-it.png")}[LANG]
@@ -44,12 +44,12 @@ M = xr.DataArray(ins, coords=a.coords, dims=a.dims); a, b = a.where(M), b.where(
 
 bb = italy.bounds; asp = 1 / np.cos(np.deg2rad((bb[1] + bb[3]) / 2))
 xspan, yspan = bb[2] - bb[0] + 0.6, bb[3] - bb[1] + 0.6
-mw = 2.08; mh = mw * yspan * asp / xspan                     # map width and height, inches
-H = 0.80 + mh + 0.28 + 0.62                                   # colour bar, maps, period labels, title
+mw = 1.95; mh = mw * yspan * asp / xspan                     # map width and height, inches
+H = 0.80 + mh + 0.28 + 0.36                                   # colour bar, maps, period labels, one-line title
 fig = plt.figure(figsize=(W, H))
 inch = lambda x, y, w, h: [x / W, y / H, w / W, h / H]
 for i, (f, period) in enumerate(((a, "1980–1989"), (b, "2020–2025"))):
-    ax = fig.add_axes(inch(0.08 + i * (mw + 0.08), 0.80, mw, mh))
+    ax = fig.add_axes(inch(0.20 + i * (mw + 0.10), 0.80, mw, mh))
     m = ax.pcolormesh(f.longitude, f.latitude, f.values, cmap="OrRd", vmin=0, vmax=100, shading="auto")
     for p in (italy.geoms if italy.geom_type == "MultiPolygon" else [italy]):
         x, y = p.exterior.xy; ax.plot(x, y, color="k", lw=.45, zorder=4)
@@ -59,7 +59,7 @@ for i, (f, period) in enumerate(((a, "1980–1989"), (b, "2020–2025"))):
                     fontsize=9, weight="bold", ha=ha, zorder=6, path_effects=HALO, annotation_clip=True)
     ax.set_aspect(asp); ax.set_xlim(bb[0] - .3, bb[2] + .3); ax.set_ylim(bb[1] - .3, bb[3] + .3)
     ax.set_xticks([]); ax.set_yticks([]); [s.set_linewidth(.5) for s in ax.spines.values()]
-    fig.text((0.08 + i * (mw + 0.08) + mw / 2) / W, (0.80 + mh + 0.06) / H, period,
+    fig.text((0.20 + i * (mw + 0.10) + mw / 2) / W, (0.80 + mh + 0.05) / H, period,
              ha="center", va="bottom", fontsize=10, weight="bold")
 cax = fig.add_axes(inch(0.5, 0.44, W - 1.0, 0.11))
 cb = fig.colorbar(m, cax=cax, orientation="horizontal"); cb.set_ticks([0, 25, 50, 75, 100])
@@ -70,6 +70,8 @@ fig.text(0.5, 1 - 0.06 / H, TXT["title"], ha="center", va="top", fontsize=11, we
 # ---- the phone rule, enforced -----------------------------------------------------------
 w, h = fig.get_size_inches()
 assert h / w <= 1.75, f"height/width {h / w:.2f} exceeds 1.75"
+# BIG is also a Substack Note: horizontal, optimal 0.8, comfortable 0.75-1.0 (spec note, 2026-10-04)
+assert 0.75 <= h / w <= 1.0, f"BIG ratio {h / w:.2f} outside the comfortable 0.75-1.0"
 small = [(t.get_text(), t.get_fontsize()) for t in fig.findobj(Text)
          if t.get_visible() and t.get_text().strip() and t.get_fontsize() < MIN_PT]
 assert not small, f"text under {MIN_PT} pt: {small[:4]}"

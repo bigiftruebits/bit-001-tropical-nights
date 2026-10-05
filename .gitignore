@@ -1,6 +1,6 @@
 __pycache__/
 *.pyc
 raw/
-figures/
+/figures/
 .DS_Store
 USAGE_BY_TASK.md

@@ -23,9 +23,9 @@ python make_fig1.py en         # and make_fig2.py, make_fig3.py; "it" for Italia
 python check_cities.py         # does each quoted place's value describe the place?
 ```
 
-`check_numbers.py` reads only `data/` and runs 64 checks against the values
+`check_numbers.py` reads only `data/` and runs 68 checks against the values
 printed in the article, including the sampling uncertainty, which it recomputes
-by resampling the summers year by year (fixed seed). On the published data all 64 pass. The figure scripts
+by resampling the summers year by year (fixed seed). On the published data all 68 pass. The figure scripts
 redraw the published figures, in both languages, from `data/`: same data, labels and colours. Exact pixel positions of titles and margins can differ by a few pixels between matplotlib versions (a 2026-10-04 test with matplotlib 3.11.2 showed this; the IF figures came out 1 px taller), so compare the figures by eye or by their data, not by checksum. Nothing is
 downloaded and no account is needed.
 
@@ -71,14 +71,14 @@ Paths are set in `code/config.py`; raw files go in `raw/`.
 | source | what | licence |
 |---|---|---|
 | Copernicus Climate Change Service, ERA5-Land monthly averaged reanalysis by hour of day, 2 m temperature | temperatures | CC-BY (as shown on the CDS dataset page, read 2026-10-04); credit: "Generated using Copernicus Climate Change Service information 2026", doi:10.24381/cds.68d2bb30 |
-| Eurostat GISCO, 5 km statistical grid with 2021 census population (`grid_5km_surf.gpkg`, `TOT_P_2021`), https://ec.europa.eu/eurostat/web/gisco/geodata/grids | population | © European Union, Eurostat. Eurostat's census-grid page states that EU copyright rules apply and that the licence would be CC BY 4.0 for the 2021 census grid. `TOT_P_2021` is that census, so CC BY 4.0 is assumed here, with attribution (the older non-commercial conditions apply to the 2006 and 2011 grids; not confirmed in writing for the 5 km file). `population_by_cell.csv` is derived from this grid |
+| Eurostat GISCO, 5 km statistical grid with 2021 census population (`grid_5km_surf.gpkg`, `TOT_P_2021`), https://ec.europa.eu/eurostat/web/gisco/geodata/grids | population | © European Union, Eurostat. CC BY 4.0, as Eurostat's census-grid 2021 entry states ("EU copyright rules apply, while the licence would be under CC-BY 4.0"; read 2026-10-04, screenshot in `licences/`). The older non-commercial conditions apply to the 2006 and 2011 grids. `population_by_cell.csv` is derived from this grid |
 | Natural Earth 1:10m admin-0 countries | country outlines | public domain |
 
 Verified 2026-10-04: with `download_raw.py` (which also fetches `italy_monthly_means.nc`, a few MB) and the Eurostat grid saved by hand, `make_intermediate.py` rebuilds every file in `data/` identically (see `DATA_MANIFEST.md`).
 
 ## What is and isn't checked
 
-Every number the article prints is checked from `data/` as shipped — 64 checks,
+Every number the article prints is checked from `data/` as shipped — 68 checks,
 including the ±0.7 °C sampling uncertainty (±0.9 °C in Greece), which is
 recomputed by resampling the summers year by year, and the month-by-month
 claims (June warmed most, September least), from all twelve months of
@@ -90,4 +90,4 @@ Two licences (decided 2026-10-05):
 
 - **Code: MIT** (`LICENSE`): the scripts in `code/`.
 - **Everything else we created: CC BY 4.0** (`DATA_LICENSE.md`): the derived data tables in `data/`, the figures, the article texts and the documentation. Credit: Riccardo Gallotti, Fondazione Bruno Kessler.
-- **Third-party data keep their providers' licences**, as in the table above and in `DATA_MANIFEST.md` (ERA5-Land CC-BY, the Eurostat 2021 grid CC BY 4.0 assumed, Natural Earth public domain).
+- **Third-party data keep their providers' licences**, as in the table above and in `DATA_MANIFEST.md` (ERA5-Land CC-BY, the Eurostat 2021 grid CC BY 4.0 as stated by Eurostat, Natural Earth public domain).
