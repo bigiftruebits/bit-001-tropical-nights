@@ -5,7 +5,9 @@ authors:
     given-names: Riccardo
     affiliation: Fondazione Bruno Kessler (FBK)
 date-released: 2026-09-28
-license: MIT
+license:
+  - MIT
+  - CC-BY-4.0
 message: >-
   Code written by Claude (Anthropic) under the author's direction: Claude Opus 5
   and Claude Opus 5.5 in a regular Claude chat (analysis and writing), Claude

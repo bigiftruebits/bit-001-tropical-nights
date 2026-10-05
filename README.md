@@ -86,5 +86,8 @@ ERA5-Land monthly means.
 
 ## Licence
 
-Code: MIT. Text of the article and figures: © Riccardo Gallotti. Data: as in the
-table above.
+Two licences (decided 2026-10-05):
+
+- **Code: MIT** (`LICENSE`): the scripts in `code/`.
+- **Everything else we created: CC BY 4.0** (`DATA_LICENSE.md`): the derived data tables in `data/`, the figures, the article texts and the documentation. Credit: Riccardo Gallotti, Fondazione Bruno Kessler.
+- **Third-party data keep their providers' licences**, as in the table above and in `DATA_MANIFEST.md` (ERA5-Land CC-BY, the Eurostat 2021 grid CC BY 4.0 assumed, Natural Earth public domain).
