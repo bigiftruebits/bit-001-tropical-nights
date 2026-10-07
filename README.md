@@ -5,6 +5,7 @@ night"* (English) / *"L'Europa meridionale ha smesso di rinfrescarsi di notte"*
 (Italian): every figure, and every number the article prints.
 
 Author: Riccardo Gallotti, Fondazione Bruno Kessler (FBK).
+Article: https://bigiftruebits.substack.com/p/tropical-nights (also at https://bigiftruebits.github.io/bit-001-tropical-nights/article.html).
 Figures and a short guide: https://bigiftruebits.github.io/bit-001-tropical-nights/
 How to cite: one Zenodo record holds this issue's code and data; cite its DOI, not the post. DOI: [10.5281/zenodo.23158810](https://doi.org/10.5281/zenodo.23158810).
 Code written by Claude (Anthropic), working from the author's instructions:

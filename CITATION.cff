@@ -6,6 +6,8 @@ authors:
     affiliation: Fondazione Bruno Kessler (FBK)
 date-released: 2026-10-05
 doi: 10.5281/zenodo.23158810
+url: "https://bigiftruebits.substack.com/p/tropical-nights"
+repository-code: "https://github.com/bigiftruebits/bit-001-tropical-nights"
 license:
   - MIT
   - CC-BY-4.0

@@ -18,5 +18,25 @@
     "reproducibility",
     "BIG IF TRUE"
   ],
-  "notes": "Code written by Claude (Anthropic) under the author's direction: Claude Opus 5 and Claude Opus 5.5 in a regular Claude chat (analysis and writing), Claude Sonnet 5.5 in Claude Code (repository). Usage in USAGE.md: Claude Code measured; the chat's cost is unknown because a regular Claude chat keeps no token record. Licences: the code is under MIT; the derived data tables, figures and article texts created for this archive are under CC BY 4.0 (credit: Riccardo Gallotti, Fondazione Bruno Kessler). Third-party data keep their providers' licences: ERA5-Land, Copernicus Climate Change Service, CC-BY with attribution (doi:10.24381/cds.68d2bb30); population_by_cell.csv derived from the Eurostat GISCO 2021 census grid, © European Union, Eurostat, with CC BY 4.0 as stated on Eurostat's census-grid 2021 page; outlines from Natural Earth, public domain."
+  "notes": "Code written by Claude (Anthropic) under the author's direction: Claude Opus 5 and Claude Opus 5.5 in a regular Claude chat (analysis and writing), Claude Sonnet 5.5 in Claude Code (repository). Usage in USAGE.md: Claude Code measured; the chat's cost is unknown because a regular Claude chat keeps no token record. Licences: the code is under MIT; the derived data tables, figures and article texts created for this archive are under CC BY 4.0 (credit: Riccardo Gallotti, Fondazione Bruno Kessler). Third-party data keep their providers' licences: ERA5-Land, Copernicus Climate Change Service, CC-BY with attribution (doi:10.24381/cds.68d2bb30); population_by_cell.csv derived from the Eurostat GISCO 2021 census grid, © European Union, Eurostat, with CC BY 4.0 as stated on Eurostat's census-grid 2021 page; outlines from Natural Earth, public domain.",
+  "related_identifiers": [
+    {
+      "identifier": "https://bigiftruebits.substack.com/p/tropical-nights",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-other",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://bigiftruebits.github.io/bit-001-tropical-nights/article.html",
+      "relation": "isDocumentedBy",
+      "resource_type": "publication-other",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://github.com/bigiftruebits/bit-001-tropical-nights",
+      "relation": "isDerivedFrom",
+      "resource_type": "software",
+      "scheme": "url"
+    }
+  ]
 }
